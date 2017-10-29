@@ -2,6 +2,7 @@
 
 import argparse
 import csv
+import decimal
 import sys
 
 from openpyxl import Workbook
@@ -39,6 +40,18 @@ if len(args.names) > 0:
         sys.exit(2)
 
 
+def convert_cell(v):
+    try:
+        return decimal.Decimal(v)
+    except:
+        return v
+
+
+def convert_row(r):
+    return [convert_cell(v) for v in r]
+
+
+
 wb = Workbook(write_only=True)
 
 for i, path in enumerate(args.files):
@@ -54,6 +67,6 @@ for i, path in enumerate(args.files):
         reader = csv.reader(fp)
 
         for row in reader:
-            ws.append(row)
+            ws.append(convert_row(row))
 
 wb.save(args.output)
