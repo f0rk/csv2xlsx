@@ -1,0 +1,59 @@
+#!/usr/bin/env python
+
+import argparse
+import csv
+import sys
+
+from openpyxl import Workbook
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    "--file",
+    "-f",
+    dest="files",
+    action="append",
+    help="files to convert. each file will be loaded into a separate tab.",
+)
+
+parser.add_argument(
+    "--name",
+    "-n",
+    dest="names",
+    action="append",
+    help="names for tabs. count of names must match count of files.",
+)
+
+parser.add_argument(
+    "output",
+    help="outpath path to save xlsx document.",
+)
+
+
+args = parser.parse_args()
+
+if len(args.names) > 0:
+    if len(args.files) != len(args.names):
+        sys.stderr.write("count of names must match count of files.\n")
+        parser.print_help()
+        sys.exit(2)
+
+
+wb = Workbook(write_only=True)
+
+for i, path in enumerate(args.files):
+
+    if args.names:
+        tab_name = args.names[i]
+    else:
+        tab_name = "sheet_{}".format(i)
+
+    ws = wb.create_sheet(title=tab_name)
+
+    with open(path) as fp:
+        reader = csv.reader(fp)
+
+        for row in reader:
+            ws.append(row)
+
+wb.save(args.output)

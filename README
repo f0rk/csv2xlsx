@@ -1,0 +1,36 @@
+Requires python and openpyxl.
+
+Examples:
+
+Imagine we have two CSV files, lol.csv and wut.csv:
+
+~$ cat lol.csv
+Name,Date,Score
+Jimmy,2012-10-10,17
+Rustle,2015-10-01,45
+The Guru,2016-04-30,-2
+
+~$ cat wut.csv
+Id,Color,Hex #
+1,red,#f00
+2,green,#0f0
+3,blue,#00f
+
+We can convert a single csv file into an xlsx like so:
+~$ csv2xlsx -f lol.csv lol.xlsx
+
+The resulting file will have a single tab named sheet_0 with three columns,
+Name, Date, and Score.
+
+If you would like to give the sheet a name, you do it like so:
+~$ csv2xlsx -f lol.csv -n lol lol.xlsx
+
+The resulting file will have a single tab named lol with three columns, Name,
+Date, and Score.
+
+You can also merge multiple csv files as follows:
+~$ csv2xlsx -f lol.csv -f wut.csv combined.xlsx
+
+If you have multiple files and want to name a tab, you must name all of them
+(the count of files and names must match):
+~$ csv2xlsx -f lol.csv -n lol -f wut.csv -n wut combined.xlsx
