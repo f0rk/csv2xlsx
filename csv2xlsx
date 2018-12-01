@@ -41,10 +41,7 @@ if args.names:
 
 
 def convert_cell(v):
-    try:
-        return decimal.Decimal(v)
-    except:
-        return v
+    return v
 
 
 def convert_row(r):
