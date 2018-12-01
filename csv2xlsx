@@ -26,6 +26,12 @@ parser.add_argument(
 )
 
 parser.add_argument(
+    "--parse-numeric",
+    action="store_true",
+    help="assume numbers in the file are real numbers, and parse them as such",
+)
+
+parser.add_argument(
     "output",
     help="outpath path to save xlsx document.",
 )
@@ -41,7 +47,13 @@ if args.names:
 
 
 def convert_cell(v):
-    return v
+    if args.parse_numeric:
+        try:
+            return decimal.Decimal(v)
+        except:
+            return v
+    else:
+        return v
 
 
 def convert_row(r):
