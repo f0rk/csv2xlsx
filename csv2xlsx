@@ -58,6 +58,11 @@ for i, path in enumerate(args.files):
     else:
         tab_name = "sheet_{}".format(i)
 
+    # the max is 31, per openpyxl/workbook/child.py:99: UserWarning: Title is
+    # more than 31 characters... (excel will say there is an error and ask to
+    # repair the file)
+    tab_name = tab_name[:31]
+
     ws = wb.create_sheet(title=tab_name)
 
     with open(path) as fp:
