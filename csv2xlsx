@@ -33,7 +33,7 @@ parser.add_argument(
 
 args = parser.parse_args()
 
-if len(args.names) > 0:
+if args.names:
     if len(args.files) != len(args.names):
         sys.stderr.write("count of names must match count of files.\n")
         parser.print_help()
