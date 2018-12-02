@@ -34,3 +34,7 @@ You can also merge multiple csv files as follows:
 If you have multiple files and want to name a tab, you must name all of them
 (the count of files and names must match):
 ~$ csv2xlsx -f lol.csv -n lol -f wut.csv -n wut combined.xlsx
+
+If you would like csv2xlsx to parse numeric values (so that Excel treats and
+displays the values as numbers), you can use the --parse-numeric flag like so:
+~$ csv2xlsx --parse-numeric -f lol.csv lol.xlsx
