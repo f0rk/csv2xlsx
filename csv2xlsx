@@ -40,8 +40,8 @@ args = parser.parse_args()
 
 if not args.files:
     sys.stderr.write("you must specify input files with --file FILE\n")
-        parser.print_help()
-        sys.exit(2)
+    parser.print_help()
+    sys.exit(2)
 
 if args.names:
     if len(args.files) != len(args.names):
