@@ -31,6 +31,8 @@ parser.add_argument(
     help="assume numbers in the file are real numbers, and parse them as such",
 )
 
+parser.add_argument("--delimiter", "-d", help="csv delimiter", default=",")
+
 parser.add_argument(
     "output",
     help="outpath path to save xlsx document.",
@@ -48,6 +50,11 @@ if args.names:
         sys.stderr.write("count of names must match count of files.\n")
         parser.print_help()
         sys.exit(2)
+
+# some help to pass tabs
+delimiter = args.delimiter
+if delimiter in ("\\t", "\\\\t", "tab", "TAB"):
+    delimiter = "\t"
 
 
 def convert_cell(v):
@@ -82,7 +89,7 @@ for i, path in enumerate(args.files):
     ws = wb.create_sheet(title=tab_name)
 
     with open(path) as fp:
-        reader = csv.reader(fp)
+        reader = csv.reader(fp, delimiter=delimiter)
 
         for row in reader:
             ws.append(convert_row(row))
