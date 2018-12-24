@@ -3,6 +3,7 @@
 import argparse
 import csv
 import decimal
+import os
 import sys
 
 from openpyxl import Workbook
@@ -22,7 +23,7 @@ parser.add_argument(
     "-n",
     dest="names",
     action="append",
-    help="names for tabs. count of names must match count of files.",
+    help="names for tabs. count of names must match count of files, if given.",
 )
 
 parser.add_argument(
@@ -71,7 +72,6 @@ def convert_row(r):
     return [convert_cell(v) for v in r]
 
 
-
 wb = Workbook(write_only=True)
 
 for i, path in enumerate(args.files):
@@ -79,7 +79,8 @@ for i, path in enumerate(args.files):
     if args.names:
         tab_name = args.names[i]
     else:
-        tab_name = "sheet_{}".format(i)
+        _, tab_name = os.path.split(path)
+        tab_name, _ = os.path.splitext(tab_name)
 
     # the max is 31, per openpyxl/workbook/child.py:99: UserWarning: Title is
     # more than 31 characters... (excel will say there is an error and ask to
